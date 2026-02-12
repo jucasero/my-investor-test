@@ -28,3 +28,9 @@ export const buyFund = async (fundId: string, quantity: number): Promise<success
 
     return response.json();
 };
+
+export const getFundById = async (id: string): Promise<successResponse<Fund>> => {
+    const response = await fetch(`${API_URL}/${id}`);
+    if (!response.ok) throw new Error('Error al obtener el fondo');
+    return response.json();
+};
