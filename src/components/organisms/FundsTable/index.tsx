@@ -3,9 +3,11 @@
 import { useState, useMemo } from 'react';
 import { Table, Thead, Tbody, Tr, Th, Td } from '@/components/atoms/Table';
 import { ChevronUp, ChevronDown, ChevronsUpDown } from '@/components/atoms/Icons/SortIcons';
-import * as styles from './FundsTable.css';
 import { formatCurrency, formatPercentage } from '@/utils/formatters';
 import { Fund } from '@/features/fund/types/fund';
+import { useFunds } from '@/features/fund/hooks/useFunds';
+import { Pagination } from '@/components/molecules/Pagination';
+import * as styles from './FundsTable.css';
 
 type SortField = keyof Fund | 'ytd' | '1a' | '3a' | '5a';
 enum SortOrder {
@@ -13,155 +15,12 @@ enum SortOrder {
   Desc = 'desc'
 }
 
-const data = { 
-  "data":  [
-    {
-      "id": "1",
-      "name": "Global Equity Fund",
-      "symbol": "GEF",
-      "value": 120.45,
-      "currency": "USD",
-      "category": "GLOBAL",
-      "profitability": {
-        "YTD": 0.05,
-        "oneYear": 0.12,
-        "threeYears": 0.35,
-        "fiveYears": 0.5
-      }
-    },
-    {
-      "id": "2",
-      "name": "Tech Growth Fund",
-      "symbol": "TGF",
-      "value": 210.32,
-      "currency": "EUR",
-      "category": "TECH",
-      "profitability": {
-        "YTD": 0.08,
-        "oneYear": 0.18,
-        "threeYears": 0.42,
-        "fiveYears": 0.65
-      }
-    },
-    {
-      "id": "3",
-      "name": "Healthcare Opportunities",
-      "symbol": "HCO",
-      "value": 145.9,
-      "currency": "USD",
-      "category": "HEALTH",
-      "profitability": {
-        "YTD": 0.03,
-        "oneYear": 0.09,
-        "threeYears": 0.28,
-        "fiveYears": 0.41
-      }
-    },
-    {
-      "id": "4",
-      "name": "Energy Sector Fund",
-      "symbol": "ESF",
-      "value": 98.67,
-      "currency": "EUR",
-      "category": "GLOBAL",
-      "profitability": {
-        "YTD": -0.02,
-        "oneYear": 0.15,
-        "threeYears": 0.22,
-        "fiveYears": 0.33
-      }
-    },
-    {
-      "id": "5",
-      "name": "Emerging Markets Equity",
-      "symbol": "EME",
-      "value": 130.21,
-      "currency": "USD",
-      "category": "GLOBAL",
-      "profitability": {
-        "YTD": 0.06,
-        "oneYear": 0.14,
-        "threeYears": 0.31,
-        "fiveYears": 0.47
-      }
-    },
-    {
-      "id": "6",
-      "name": "US Small Cap Fund",
-      "symbol": "USC",
-      "value": 110.12,
-      "currency": "EUR",
-      "category": "MONEY_MARKET",
-      "profitability": {
-        "YTD": 0.04,
-        "oneYear": 0.11,
-        "threeYears": 0.29,
-        "fiveYears": 0.38
-      }
-    },
-    {
-      "id": "7",
-      "name": "Real Estate Income",
-      "symbol": "REI",
-      "value": 88.45,
-      "currency": "USD",
-      "category": "GLOBAL",
-      "profitability": {
-        "YTD": 0.07,
-        "oneYear": 0.16,
-        "threeYears": 0.35,
-        "fiveYears": 0.52
-      }
-    },
-    {
-      "id": "8",
-      "name": "International Value",
-      "symbol": "IVF",
-      "value": 132.77,
-      "currency": "EUR",
-      "category": "GLOBAL",
-      "profitability": {
-        "YTD": 0.02,
-        "oneYear": 0.13,
-        "threeYears": 0.26,
-        "fiveYears": 0.44
-      }
-    },
-    {
-      "id": "9",
-      "name": "Dividend Leaders Fund",
-      "symbol": "DLF",
-      "value": 102.54,
-      "currency": "USD",
-      "category": "MONEY_MARKET",
-      "profitability": {
-        "YTD": 0.09,
-        "oneYear": 0.17,
-        "threeYears": 0.32,
-        "fiveYears": 0.48
-      }
-    },
-    {
-      "id": "10",
-      "name": "Bond Index Fund",
-      "symbol": "BIF",
-      "value": 50.12,
-      "currency": "EUR",
-      "category": "MONEY_MARKET",
-      "profitability": {
-        "YTD": 0.01,
-        "oneYear": 0.04,
-        "threeYears": 0.08,
-        "fiveYears": 0.12
-      }
-    }
-  ]
-}
-
 export const FundsTable = () => {
-  
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder >(SortOrder.Asc);
+  const { data, isLoading, isError } = useFunds(page, limit);
   
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -177,8 +36,8 @@ export const FundsTable = () => {
     if (!sortField) return data.data;
 
     return [...data.data].sort((a, b) => {
-      let aValue: any = a;
-      let bValue: any = b;
+      let aValue = a;
+      let bValue = b;
 
       if (['ytd', '1a', '3a', '5a'].includes(sortField)) {
          const map: Record<string, keyof typeof a.profitability> = {
@@ -187,11 +46,11 @@ export const FundsTable = () => {
              '3a': 'threeYears',
              '5a': 'fiveYears'
          };
-         aValue = a.profitability[map[sortField as string]];
-         bValue = b.profitability[map[sortField as string]];
+         aValue = a.profitability[map[sortField]] as unknown as Fund;
+         bValue = b.profitability[map[sortField]] as unknown as Fund;
       } else {
-          aValue = a[sortField as keyof Fund];
-          bValue = b[sortField as keyof Fund];
+          aValue = a[sortField as keyof Fund] as unknown as Fund;
+          bValue = b[sortField as keyof Fund] as unknown as Fund;
       }
 
       if (aValue < bValue) return sortOrder === SortOrder.Asc ? -1 : 1;
@@ -204,6 +63,10 @@ export const FundsTable = () => {
     if (sortField !== field) return <ChevronsUpDown size={14} color="#ccc" />;
     return sortOrder === SortOrder.Asc ? <ChevronUp size={14} /> : <ChevronDown size={14} />;
   };
+
+  if (isLoading) return <div>Cargando fondos...</div>;
+
+  if (isError) return <div>Error al cargar los fondos</div>;
 
   return (
     <section className={styles.container}>
@@ -259,6 +122,15 @@ export const FundsTable = () => {
           ))}
         </Tbody>
       </Table>
+      
+      <Pagination
+        currentPage={page}
+        totalPages={data?.pagination.totalPages || 1}
+        limit={limit}
+        onPageChange={setPage}
+        onLimitChange={setLimit}
+        totalItems={data?.pagination.totalFunds || 0}
+      />
     </section>
   );
 };
