@@ -3,17 +3,23 @@
 import { useState, useMemo } from 'react';
 import { Table, Thead, Tbody, Tr, Th, Td } from '@/components/atoms/Table';
 import { ChevronUp, ChevronDown, ChevronsUpDown } from '@/components/atoms/Icons/SortIcons';
-import { formatCurrency, formatPercentage } from '@/utils/formatters';
 import { Fund } from '@/features/fund/types/fund';
 import { useFunds } from '@/features/fund/hooks/useFunds';
+import { FundBuyModal } from '@/components/molecules/Modals/FundBuyModal';
+import { FundDetailModal } from '@/components/molecules/Modals/FundDetailModal';
 import { Pagination } from '@/components/molecules/Pagination';
+import { ActionMenu } from '@/components/molecules/ActionMenu';
+import { formatCurrency, formatPercentage } from '@/utils/formatters';
 import * as styles from './FundsTable.css';
 
 type SortField = keyof Fund | 'ytd' | '1a' | '3a' | '5a';
+
 enum SortOrder {
   Asc = 'asc',
   Desc = 'desc'
 }
+
+enum ModalType {Buy = 'buy', Detail = 'detail' }
 
 export const FundsTable = () => {
   const [page, setPage] = useState(1);
@@ -21,6 +27,8 @@ export const FundsTable = () => {
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder >(SortOrder.Asc);
   const { data, isLoading, isError } = useFunds(page, limit);
+  const [selectedFund, setSelectedFund] = useState<Fund | null>(null);
+  const [modalType, setModalType] = useState<ModalType | null>(null);
   
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -62,6 +70,16 @@ export const FundsTable = () => {
   const renderSortIcon = (field: SortField) => {
     if (sortField !== field) return <ChevronsUpDown size={14} color="#ccc" />;
     return sortOrder === SortOrder.Asc ? <ChevronUp size={14} /> : <ChevronDown size={14} />;
+  };
+
+    const openModal = (type: ModalType, fund: Fund) => {
+      setSelectedFund(fund);
+      setModalType(type);
+  };
+
+  const closeModal = () => {
+      setModalType(null);
+      setSelectedFund(null);
   };
 
   if (isLoading) return <div>Cargando fondos...</div>;
@@ -116,7 +134,14 @@ export const FundsTable = () => {
               <Td>{formatPercentage(fund.profitability.threeYears)}</Td>
               <Td>{formatPercentage(fund.profitability.fiveYears)}</Td>
               <Td>
-                  <p>acciones</p>
+                  <div className={styles.actionsCell}>
+                      <ActionMenu 
+                          options={[
+                              { label: 'Comprar', onClick: () => openModal(ModalType.Buy, fund) },
+                              { label: 'Ver Detalle', onClick: () => openModal(ModalType.Detail, fund) },
+                          ]}
+                      />
+                  </div>
               </Td>
             </Tr>
           ))}
@@ -131,6 +156,22 @@ export const FundsTable = () => {
         onLimitChange={setLimit}
         totalItems={data?.pagination.totalFunds || 0}
       />
+
+      {modalType === ModalType.Detail && selectedFund && (
+          <FundDetailModal 
+              isOpen={true} 
+              onClose={closeModal} 
+              fund={selectedFund} 
+          />
+      )}
+      
+      {modalType === ModalType.Buy && selectedFund && (
+          <FundBuyModal 
+              isOpen={true} 
+              onClose={closeModal} 
+              fund={selectedFund} 
+          />
+      )}
     </section>
   );
 };
