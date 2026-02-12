@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Investor Test 🏦
 
-## Getting Started
+Este proyecto es una aplicación de gestión de inversiones construida con **Next.js**, enfocada en la mantenibilidad, escalabilidad y una experiencia de usuario fluida.
 
-First, run the development server:
+## 🚀 Cómo correr el proyecto localmente
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Para comenzar a trabajar con el proyecto en tu entorno local, sigue estos pasos:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. **Instalar dependencias:**
+   ```bash
+   npm install
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. **Ejecutar el servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
+   El proyecto estará disponible en [http://localhost:4000](http://localhost:4000).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. **Construir para producción:**
+   ```bash
+   npm run build
+   ```
 
-## Learn More
+4. **Iniciar en modo producción:**
+   ```bash
+   npm run start
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Decisiones técnicas tomadas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Para garantizar un código limpio y escalable, se han tomado las siguientes decisiones de arquitectura y herramientas:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Screaming Architecture:** La estructura del proyecto está organizada por funcionalidades (`features`), lo que permite que el propósito de la aplicación sea evidente desde el primer vistazo al sistema de archivos.
+- **Atomic Design:** Implementado en la carpeta `components` (Atoms, Molecules, Organisms) para fomentar la reutilización de componentes y la consistencia visual.
+- **Vanilla Extract:** Utilizado para el tipado de estilos en tiempo de compilación, ofreciendo la potencia de CSS-in-JS con rendimiento de CSS nativo.
+- **React Hook Form:** Para una gestión eficiente y performante de los formularios.
+- **TanStack Query (React Query):** Empleado para la gestión del estado de las peticiones asíncronas, facilitando el cacheo de datos y la implementación de actualizaciones optimistas (*optimistic updates*).
 
-## Deploy on Vercel
+## ✨ Funcionalidades implementadas
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+La aplicación permite realizar las operaciones principales de un gestor de fondos:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- ✅ **Listado de fondos:** Visualización completa de los fondos disponibles.
+- ✅ **Acción de comprar un fondo:** Flujo de adquisición de nuevos activos.
+- ✅ **Detalle del portafolio:** Resumen detallado de las inversiones actuales.
+- ✅ **Acción de vender un fondo:** Gestión de desinversión de activos.
+- ✅ **Acción de traspasar un fondo:** Movimiento de capital entre diferentes fondos.
+
+## 📈 Qué mejoraría con más tiempo
+
+Aunque el núcleo de la aplicación es sólido, con más tiempo se podrían abordar los siguientes puntos:
+
+- **Responsive Mobile-First:** Refinar la interfaz para asegurar una experiencia óptima en dispositivos móviles antes que en escritorio.
+- **Accesibilidad (A11y):** Implementar mejoras siguiendo las pautas WCAG para asegurar que la aplicación sea utilizable por todos.
+- **Testing:** Incrementar la cobertura de tests unitarios y de integración para asegurar la robustez a largo plazo.
