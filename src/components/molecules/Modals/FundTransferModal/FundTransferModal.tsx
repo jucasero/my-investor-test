@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Modal } from '@/components/molecules/Modals/Modal';
 import { Portfolio } from '@/features/portfolio/types/portfolio';
@@ -18,7 +18,7 @@ interface TransferFormValues {
 }
 
 export const FundTransferModal = ({ isOpen, onClose, sourceFund, allFunds }: FundTransferModalProps) => {
-  const { register, handleSubmit, watch, formState: { errors, isValid }, reset } = useForm<TransferFormValues>({
+  const { register, handleSubmit, formState: { errors, isValid }, reset } = useForm<TransferFormValues>({
       mode: 'onChange'
   });
   
@@ -40,9 +40,7 @@ export const FundTransferModal = ({ isOpen, onClose, sourceFund, allFunds }: Fun
 
   if (!sourceFund) return null;
 
-  const targetFunds = useMemo(() => {
-    return allFunds.filter(f => f.id !== sourceFund.id);
-  }, [allFunds, sourceFund]);
+  const targetFunds = allFunds.filter(f => f.id !== sourceFund.id);
 
   return (
     <Modal

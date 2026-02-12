@@ -8,15 +8,16 @@ import { actionsCell } from '@/components/atoms/Table/Table.css';
 import { formatCurrency } from '@/utils/formatters';
 import { DefaultCurrency } from '@/utils/constants';
 import { PortfolioModals } from './PortfolioModalsWrapper';
+import { Portfolio } from '@/features/portfolio/types/portfolio';
 import * as styles from './PortfolioTable.css';
 
 export enum PortfolioAction {Detail = 'detail', Buy = 'buy', Sell = 'sell', Transfer = 'transfer'}
 
 export const PortfolioTable = () => {
   const { data, isLoading, isError } = usePortfolio();
-  const [selectedItem, setSelectedItem] = useState<{ type: PortfolioAction, item: any } | null>(null);
+  const [selectedItem, setSelectedItem] = useState<{ type: PortfolioAction, item:  Portfolio } | null>(null);
 
-  const handleAction = (type: PortfolioAction, item: any) => {
+  const handleAction = (type: PortfolioAction, item: Portfolio) => {
       setSelectedItem({ type, item });
   };
   

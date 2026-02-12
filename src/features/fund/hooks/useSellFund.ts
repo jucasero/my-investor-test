@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { sellFund } from '../services/fundService';
+import { sellFund } from '@/features/fund/services/fundService';
 import { useToast } from '@/components/atoms/Toast';
+import { Portfolio } from '@/features/portfolio/types/portfolio';
+import { successResponse } from '@/features/shared/types/apiResponses';
 
 export const useSellFund = () => {
     const queryClient = useQueryClient();
@@ -13,11 +15,11 @@ export const useSellFund = () => {
             await queryClient.cancelQueries({ queryKey: ['portfolio'] });
             const previousPortfolio = queryClient.getQueryData(['portfolio']);
 
-            queryClient.setQueryData(['portfolio'], (old: any) => {
+            queryClient.setQueryData(['portfolio'], (old: successResponse<Portfolio[]>) => {
                 if (!old?.data) return old;
                 return {
                     ...old,
-                    data: old.data.map((item: any) => {
+                    data: old.data.map((item) => {
                         if (item.id === fundId) {
                             const unitPrice = item.totalValue / item.quantity;
                             return {
@@ -27,7 +29,7 @@ export const useSellFund = () => {
                             };
                         }
                         return item;
-                    }).filter((item: any) => item.quantity > 0)
+                    }).filter((item: Portfolio) => item.quantity > 0)
                 };
             });
 
