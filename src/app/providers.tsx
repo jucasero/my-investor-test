@@ -1,5 +1,6 @@
 'use client';
 
+import { ToastProvider } from '@/components/atoms/Toast';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -7,7 +8,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ToastProvider>
         {children}
+      </ToastProvider>
     </QueryClientProvider>
   );
 }
