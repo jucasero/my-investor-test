@@ -1,8 +1,9 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { buyFund } from '@/features/fund/services/fundService';
 import { useToast } from '@/components/atoms/Toast';
 
 export const useBuyFund = () => {
+    const queryClient = useQueryClient();
     const { showToast } = useToast();
 
     return useMutation({
@@ -10,8 +11,9 @@ export const useBuyFund = () => {
             buyFund(fundId, quantity),
         onSuccess: () => {
             showToast('Fondo comprado exitosamente', 'success');
+             queryClient.invalidateQueries({ queryKey: ['portfolio'] });
         },
-        onError: (error) => {
+        onError: () => {
             showToast('Error al realizar la compra', 'error');
         },
     });
