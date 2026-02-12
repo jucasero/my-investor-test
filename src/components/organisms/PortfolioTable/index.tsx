@@ -1,20 +1,20 @@
 'use client';
 
-import { usePortfolio } from '../../../features/portfolio/hooks/usePortfolio';
-import { Table, Thead, Tbody, Tr, Th, Td } from '../../atoms/Table';
-import * as styles from './PortfolioTable.css';
-import { ActionMenu } from '../../molecules/ActionMenu';
-import { PortfolioModals } from './PortfolioModalsWrapper';
-import React from 'react';
-import { actionsCell } from '../../atoms/Table/Table.css';
+import { useState } from 'react';
+import { usePortfolio } from '@/features/portfolio/hooks/usePortfolio';
+import { Table, Thead, Tbody, Tr, Th, Td } from '@/components/atoms/Table';
+import { ActionMenu } from '@/components/molecules/ActionMenu';
+import { actionsCell } from '@/components/atoms/Table/Table.css';
 import { formatCurrency } from '@/utils/formatters';
 import { DefaultCurrency } from '@/utils/constants';
+import { PortfolioModals } from './PortfolioModalsWrapper';
+import * as styles from './PortfolioTable.css';
 
 export enum PortfolioAction {Detail = 'detail', Buy = 'buy', Sell = 'sell', Transfer = 'transfer'}
 
 export const PortfolioTable = () => {
   const { data, isLoading, isError } = usePortfolio();
-  const [selectedItem, setSelectedItem] = React.useState<{ type: PortfolioAction, item: any } | null>(null);
+  const [selectedItem, setSelectedItem] = useState<{ type: PortfolioAction, item: any } | null>(null);
 
   const handleAction = (type: PortfolioAction, item: any) => {
       setSelectedItem({ type, item });
@@ -51,8 +51,8 @@ export const PortfolioTable = () => {
                     <ActionMenu 
                         options={[
                             { label: 'Comprar', onClick: () => handleAction(PortfolioAction.Buy, item) },
-                            { label: 'Vender', onClick: () => {} },
-                            { label: 'Traspasar', onClick: () => {} },
+                            { label: 'Vender', onClick: () => handleAction(PortfolioAction.Sell, item) },
+                            { label: 'Traspasar', onClick: () => handleAction(PortfolioAction.Transfer, item) },
                             { label: 'Ver Detalle', onClick: () => handleAction(PortfolioAction.Detail, item) },
                         ]}
                     />
