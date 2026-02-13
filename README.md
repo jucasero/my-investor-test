@@ -53,4 +53,4 @@ Aunque el núcleo de la aplicación es sólido, con más tiempo se podrían abor
 
 - **Responsive Mobile-First:** Refinar la interfaz para asegurar una experiencia óptima en dispositivos móviles antes que en escritorio.
 - **Accesibilidad (A11y):** Implementar mejoras siguiendo las pautas WCAG para asegurar que la aplicación sea utilizable por todos.
-- **Testing:** Incrementar la cobertura de tests unitarios y de integración para asegurar la robustez a largo plazo.
+- **Testing:** Hacer los tests unitarios y mejorar los de integración para asegurar la robustez a largo plazo.
