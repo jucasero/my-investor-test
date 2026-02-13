@@ -27,6 +27,20 @@ Para comenzar a trabajar con el proyecto en tu entorno local, sigue estos pasos:
    npm run start
    ```
 
+## 🧪 Pruebas E2E (Playwright)
+
+Para asegurar el correcto funcionamiento de los flujos críticos (Compra, Venta, Traspaso), se han implementado tests de extremo a extremo:
+
+1. **Ejecutar todos los tests:**
+   ```bash
+   npm run test:e2e
+   ```
+
+2. **Ejecutar con interfaz de usuario (UI Mode):**
+   ```bash
+   npm run test:e2e:ui
+   ```
+
 ## 🛠️ Decisiones técnicas tomadas
 
 Para garantizar un código limpio y escalable, se han tomado las siguientes decisiones de arquitectura y herramientas:
@@ -53,4 +67,4 @@ Aunque el núcleo de la aplicación es sólido, con más tiempo se podrían abor
 
 - **Responsive Mobile-First:** Refinar la interfaz para asegurar una experiencia óptima en dispositivos móviles antes que en escritorio.
 - **Accesibilidad (A11y):** Implementar mejoras siguiendo las pautas WCAG para asegurar que la aplicación sea utilizable por todos.
-- **Testing:** Hacer los tests unitarios y mejorar los de integración para asegurar la robustez a largo plazo.
+- **Testing Unitario:** Continuar incrementando la cobertura de pruebas unitarias (Jest/Vitest) para los hooks y servicios core de la aplicación.
