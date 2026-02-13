@@ -1,16 +1,14 @@
-'use client';
+"use client";
 
-import { ToastProvider } from '@/components/atoms/Toast';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ToastProvider } from "@/components/atoms/Toast";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ToastProvider>
-        {children}
-      </ToastProvider>
+      <ToastProvider>{children}</ToastProvider>
     </QueryClientProvider>
   );
 }

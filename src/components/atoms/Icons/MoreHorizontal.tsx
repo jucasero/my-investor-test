@@ -1,4 +1,8 @@
-export const MoreHorizontal = ({ size = 24, color = "currentColor", ...props }: React.SVGProps<SVGSVGElement> & { size?: number, color?: string }) => (
+export const MoreHorizontal = ({
+  size = 24,
+  color = "currentColor",
+  ...props
+}: React.SVGProps<SVGSVGElement> & { size?: number; color?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}

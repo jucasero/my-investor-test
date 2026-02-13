@@ -7,17 +7,21 @@ Este proyecto es una aplicación de gestión de inversiones construida con **Nex
 Para comenzar a trabajar con el proyecto en tu entorno local, sigue estos pasos:
 
 1. **Instalar dependencias:**
+
    ```bash
    npm install
    ```
 
 2. **Ejecutar el servidor de desarrollo:**
+
    ```bash
    npm run dev
    ```
+
    El proyecto estará disponible en [http://localhost:4000](http://localhost:4000).
 
 3. **Construir para producción:**
+
    ```bash
    npm run build
    ```
@@ -32,6 +36,7 @@ Para comenzar a trabajar con el proyecto en tu entorno local, sigue estos pasos:
 Para asegurar el correcto funcionamiento de los flujos críticos (Compra, Venta, Traspaso), se han implementado tests de extremo a extremo:
 
 1. **Ejecutar todos los tests:**
+
    ```bash
    npm run test:e2e
    ```
@@ -49,7 +54,7 @@ Para garantizar un código limpio y escalable, se han tomado las siguientes deci
 - **Atomic Design:** Implementado en la carpeta `components` (Atoms, Molecules, Organisms) para fomentar la reutilización de componentes y la consistencia visual.
 - **Vanilla Extract:** Utilizado para el tipado de estilos en tiempo de compilación, ofreciendo la potencia de CSS-in-JS con rendimiento de CSS nativo.
 - **React Hook Form:** Para una gestión eficiente y performante de los formularios.
-- **TanStack Query (React Query):** Empleado para la gestión del estado de las peticiones asíncronas, facilitando el cacheo de datos y la implementación de actualizaciones optimistas (*optimistic updates*).
+- **TanStack Query (React Query):** Empleado para la gestión del estado de las peticiones asíncronas, facilitando el cacheo de datos y la implementación de actualizaciones optimistas (_optimistic updates_).
 
 ## ✨ Funcionalidades implementadas
 
@@ -67,4 +72,4 @@ Aunque el núcleo de la aplicación es sólido, con más tiempo se podrían abor
 
 - **Responsive Mobile-First:** Refinar la interfaz para asegurar una experiencia óptima en dispositivos móviles antes que en escritorio.
 - **Accesibilidad (A11y):** Implementar mejoras siguiendo las pautas WCAG para asegurar que la aplicación sea utilizable por todos.
-- **Testing Unitario:** Continuar incrementando la cobertura de pruebas unitarias (Jest/Vitest) para los hooks y servicios core de la aplicación.
+- **Testing Unitario:** Hacer los tests unitarios y mejorar los de integración para asegurar la robustez a largo plazo.

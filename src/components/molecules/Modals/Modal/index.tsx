@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useEffect } from 'react';
-import * as styles from './Modal.css';
+import React, { useEffect } from "react";
+import * as styles from "./Modal.css";
 
 interface ModalProps {
   isOpen: boolean;
@@ -11,15 +11,14 @@ interface ModalProps {
 }
 
 export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
-
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
@@ -30,11 +29,11 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
       <dialog className={styles.dialog} onClick={(e) => e.stopPropagation()}>
         <header className={styles.header}>
           <h3 className={styles.title}>{title}</h3>
-          <button className={styles.closeButton} onClick={onClose}>×</button>
+          <button className={styles.closeButton} onClick={onClose}>
+            ×
+          </button>
         </header>
-        <div className={styles.content}>
-          {children}
-        </div>
+        <div className={styles.content}>{children}</div>
       </dialog>
     </div>
   );

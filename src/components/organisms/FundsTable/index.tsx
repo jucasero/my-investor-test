@@ -1,38 +1,47 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td } from '@/components/atoms/Table';
-import { ChevronUp, ChevronDown, ChevronsUpDown } from '@/components/atoms/Icons/SortIcons';
-import { Fund } from '@/features/fund/types/fund';
-import { useFunds } from '@/features/fund/hooks/useFunds';
-import { FundBuyModal } from '@/components/molecules/Modals/FundBuyModal';
-import { FundDetailModal } from '@/components/molecules/Modals/FundDetailModal';
-import { Pagination } from '@/components/molecules/Pagination';
-import { ActionMenu } from '@/components/molecules/ActionMenu';
-import { formatCurrency, formatPercentage } from '@/utils/formatters';
-import * as styles from './FundsTable.css';
+import { useState, useMemo } from "react";
+import { Table, Thead, Tbody, Tr, Th, Td } from "@/components/atoms/Table";
+import {
+  ChevronUp,
+  ChevronDown,
+  ChevronsUpDown,
+} from "@/components/atoms/Icons/SortIcons";
+import { Fund } from "@/features/fund/types/fund";
+import { useFunds } from "@/features/fund/hooks/useFunds";
+import { FundBuyModal } from "@/components/molecules/Modals/FundBuyModal";
+import { FundDetailModal } from "@/components/molecules/Modals/FundDetailModal";
+import { Pagination } from "@/components/molecules/Pagination";
+import { ActionMenu } from "@/components/molecules/ActionMenu";
+import { formatCurrency, formatPercentage } from "@/utils/formatters";
+import * as styles from "./FundsTable.css";
 
-type SortField = keyof Fund | 'ytd' | '1a' | '3a' | '5a';
+type SortField = keyof Fund | "ytd" | "1a" | "3a" | "5a";
 
 enum SortOrder {
-  Asc = 'asc',
-  Desc = 'desc'
+  Asc = "asc",
+  Desc = "desc",
 }
 
-enum ModalType {Buy = 'buy', Detail = 'detail' }
+enum ModalType {
+  Buy = "buy",
+  Detail = "detail",
+}
 
 export const FundsTable = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [sortField, setSortField] = useState<SortField | null>(null);
-  const [sortOrder, setSortOrder] = useState<SortOrder >(SortOrder.Asc);
+  const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.Asc);
   const { data, isLoading, isError } = useFunds(page, limit);
   const [selectedFund, setSelectedFund] = useState<Fund | null>(null);
   const [modalType, setModalType] = useState<ModalType | null>(null);
-  
+
   const handleSort = (field: SortField) => {
     if (sortField === field) {
-      setSortOrder(sortOrder === SortOrder.Asc ? SortOrder.Desc : SortOrder.Asc);
+      setSortOrder(
+        sortOrder === SortOrder.Asc ? SortOrder.Desc : SortOrder.Asc,
+      );
     } else {
       setSortField(field);
       setSortOrder(SortOrder.Asc);
@@ -47,18 +56,18 @@ export const FundsTable = () => {
       let aValue = a;
       let bValue = b;
 
-      if (['ytd', '1a', '3a', '5a'].includes(sortField)) {
-         const map: Record<string, keyof typeof a.profitability> = {
-             'ytd': 'YTD',
-             '1a': 'oneYear',
-             '3a': 'threeYears',
-             '5a': 'fiveYears'
-         };
-         aValue = a.profitability[map[sortField]] as unknown as Fund;
-         bValue = b.profitability[map[sortField]] as unknown as Fund;
+      if (["ytd", "1a", "3a", "5a"].includes(sortField)) {
+        const map: Record<string, keyof typeof a.profitability> = {
+          ytd: "YTD",
+          "1a": "oneYear",
+          "3a": "threeYears",
+          "5a": "fiveYears",
+        };
+        aValue = a.profitability[map[sortField]] as unknown as Fund;
+        bValue = b.profitability[map[sortField]] as unknown as Fund;
       } else {
-          aValue = a[sortField as keyof Fund] as unknown as Fund;
-          bValue = b[sortField as keyof Fund] as unknown as Fund;
+        aValue = a[sortField as keyof Fund] as unknown as Fund;
+        bValue = b[sortField as keyof Fund] as unknown as Fund;
       }
 
       if (aValue < bValue) return sortOrder === SortOrder.Asc ? -1 : 1;
@@ -69,17 +78,21 @@ export const FundsTable = () => {
 
   const renderSortIcon = (field: SortField) => {
     if (sortField !== field) return <ChevronsUpDown size={14} color="#ccc" />;
-    return sortOrder === SortOrder.Asc ? <ChevronUp size={14} /> : <ChevronDown size={14} />;
+    return sortOrder === SortOrder.Asc ? (
+      <ChevronUp size={14} />
+    ) : (
+      <ChevronDown size={14} />
+    );
   };
 
-    const openModal = (type: ModalType, fund: Fund) => {
-      setSelectedFund(fund);
-      setModalType(type);
+  const openModal = (type: ModalType, fund: Fund) => {
+    setSelectedFund(fund);
+    setModalType(type);
   };
 
   const closeModal = () => {
-      setModalType(null);
-      setSelectedFund(null);
+    setModalType(null);
+    setSelectedFund(null);
   };
 
   if (isLoading) return <div>Cargando fondos...</div>;
@@ -95,29 +108,45 @@ export const FundsTable = () => {
       <Table>
         <Thead>
           <Tr>
-            <Th onClick={() => handleSort('name')}>
-                <div className={styles.sortHeaderContent}>Nombre {renderSortIcon('name')}</div>
+            <Th onClick={() => handleSort("name")}>
+              <div className={styles.sortHeaderContent}>
+                Nombre {renderSortIcon("name")}
+              </div>
             </Th>
-            <Th onClick={() => handleSort('category')}>
-                <div className={styles.sortHeaderContent}>Categoría {renderSortIcon('category')}</div>
+            <Th onClick={() => handleSort("category")}>
+              <div className={styles.sortHeaderContent}>
+                Categoría {renderSortIcon("category")}
+              </div>
             </Th>
-            <Th onClick={() => handleSort('currency')}>
-                <div className={styles.sortHeaderContent}>Moneda {renderSortIcon('currency')}</div>
+            <Th onClick={() => handleSort("currency")}>
+              <div className={styles.sortHeaderContent}>
+                Moneda {renderSortIcon("currency")}
+              </div>
             </Th>
-            <Th onClick={() => handleSort('value')}>
-                <div className={styles.sortHeaderContent}>Valor {renderSortIcon('value')}</div>
+            <Th onClick={() => handleSort("value")}>
+              <div className={styles.sortHeaderContent}>
+                Valor {renderSortIcon("value")}
+              </div>
             </Th>
-            <Th onClick={() => handleSort('ytd')}>
-                <div className={styles.sortHeaderContent}>YTD {renderSortIcon('ytd')}</div>
+            <Th onClick={() => handleSort("ytd")}>
+              <div className={styles.sortHeaderContent}>
+                YTD {renderSortIcon("ytd")}
+              </div>
             </Th>
-            <Th onClick={() => handleSort('1a')}>
-                <div className={styles.sortHeaderContent}>1 A {renderSortIcon('1a')}</div>
+            <Th onClick={() => handleSort("1a")}>
+              <div className={styles.sortHeaderContent}>
+                1 A {renderSortIcon("1a")}
+              </div>
             </Th>
-             <Th onClick={() => handleSort('3a')}>
-                <div className={styles.sortHeaderContent}>3 A {renderSortIcon('3a')}</div>
+            <Th onClick={() => handleSort("3a")}>
+              <div className={styles.sortHeaderContent}>
+                3 A {renderSortIcon("3a")}
+              </div>
             </Th>
-             <Th onClick={() => handleSort('5a')}>
-                <div className={styles.sortHeaderContent}>5 A {renderSortIcon('5a')}</div>
+            <Th onClick={() => handleSort("5a")}>
+              <div className={styles.sortHeaderContent}>
+                5 A {renderSortIcon("5a")}
+              </div>
             </Th>
             <Th> </Th>
           </Tr>
@@ -134,20 +163,26 @@ export const FundsTable = () => {
               <Td>{formatPercentage(fund.profitability.threeYears)}</Td>
               <Td>{formatPercentage(fund.profitability.fiveYears)}</Td>
               <Td>
-                  <div className={styles.actionsCell}>
-                      <ActionMenu 
-                          options={[
-                              { label: 'Comprar', onClick: () => openModal(ModalType.Buy, fund) },
-                              { label: 'Ver Detalle', onClick: () => openModal(ModalType.Detail, fund) },
-                          ]}
-                      />
-                  </div>
+                <div className={styles.actionsCell}>
+                  <ActionMenu
+                    options={[
+                      {
+                        label: "Comprar",
+                        onClick: () => openModal(ModalType.Buy, fund),
+                      },
+                      {
+                        label: "Ver Detalle",
+                        onClick: () => openModal(ModalType.Detail, fund),
+                      },
+                    ]}
+                  />
+                </div>
               </Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
-      
+
       <Pagination
         currentPage={page}
         totalPages={data?.pagination.totalPages || 1}
@@ -158,19 +193,15 @@ export const FundsTable = () => {
       />
 
       {modalType === ModalType.Detail && selectedFund && (
-          <FundDetailModal 
-              isOpen={true} 
-              onClose={closeModal} 
-              fund={selectedFund} 
-          />
+        <FundDetailModal
+          isOpen={true}
+          onClose={closeModal}
+          fund={selectedFund}
+        />
       )}
-      
+
       {modalType === ModalType.Buy && selectedFund && (
-          <FundBuyModal 
-              isOpen={true} 
-              onClose={closeModal} 
-              fund={selectedFund} 
-          />
+        <FundBuyModal isOpen={true} onClose={closeModal} fund={selectedFund} />
       )}
     </section>
   );

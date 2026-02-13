@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import * as styles from './ActionMenu.css';
-import { MoreHorizontal } from '@/components/atoms/Icons/MoreHorizontal';
+import { useState, useRef, useEffect } from "react";
+import * as styles from "./ActionMenu.css";
+import { MoreHorizontal } from "@/components/atoms/Icons/MoreHorizontal";
 
 interface ActionOption {
   label: string;
@@ -24,23 +24,23 @@ export const ActionMenu = ({ options }: ActionMenuProps) => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   return (
     <div className={styles.container} ref={menuRef}>
-      <button 
-        className={styles.trigger} 
+      <button
+        className={styles.trigger}
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Actions"
         aria-expanded={isOpen}
       >
         <MoreHorizontal size={20} />
       </button>
-      
+
       <div className={styles.menu} data-open={isOpen}>
         {options.map((option, index) => (
           <button

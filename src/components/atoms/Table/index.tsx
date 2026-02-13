@@ -1,5 +1,5 @@
-import React from 'react';
-import * as styles from './Table.css';
+import React from "react";
+import * as styles from "./Table.css";
 
 export const Table = ({ children }: { children: React.ReactNode }) => (
   <table className={styles.table}>{children}</table>
@@ -23,7 +23,9 @@ interface ThProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
 }
 
 export const Th = ({ children, onClick, ...props }: ThProps) => (
-  <th className={styles.th} onClick={onClick} {...props}>{children}</th>
+  <th className={styles.th} onClick={onClick} {...props}>
+    {children}
+  </th>
 );
 
 export const Td = ({ children }: { children: React.ReactNode }) => (

@@ -3,11 +3,11 @@ type Profitability = Readonly<{
   oneYear: number;
   threeYears: number;
   fiveYears: number;
-}>
+}>;
 
-type Currency = 'USD' | 'EUR';
+type Currency = "USD" | "EUR";
 
-type Category = 'GLOBAL' | 'TECH' | 'HEALTH' | 'MONEY_MARKET';
+type Category = "GLOBAL" | "TECH" | "HEALTH" | "MONEY_MARKET";
 
 export type Fund = Readonly<{
   id: string;

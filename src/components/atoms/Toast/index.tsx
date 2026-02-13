@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, useState, useCallback } from 'react';
-import * as styles from './Toast.css';
+import React, { createContext, useContext, useState, useCallback } from "react";
+import * as styles from "./Toast.css";
 
-type ToastType = 'success' | 'error' | 'info';
+type ToastType = "success" | "error" | "info";
 
 interface Toast {
   id: number;
@@ -20,7 +20,7 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined);
 export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const showToast = useCallback((message: string, type: ToastType = 'info') => {
+  const showToast = useCallback((message: string, type: ToastType = "info") => {
     const id = Date.now();
     setToasts((prev) => [...prev, { id, message, type }]);
 
@@ -43,11 +43,11 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
             className={`${styles.toast} ${styles[toast.type]}`}
           >
             <span>{toast.message}</span>
-            <button 
-                className={styles.closeButton}
-                onClick={() => removeToast(toast.id)}
+            <button
+              className={styles.closeButton}
+              onClick={() => removeToast(toast.id)}
             >
-                ×
+              ×
             </button>
           </div>
         ))}
@@ -59,7 +59,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
 export const useToast = () => {
   const context = useContext(ToastContext);
   if (!context) {
-    throw new Error('useToast must be used within a ToastProvider');
+    throw new Error("useToast must be used within a ToastProvider");
   }
   return context;
 };

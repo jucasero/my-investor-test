@@ -1,4 +1,4 @@
 export enum Tab {
-    Funds = 'funds',
-    Portfolio = 'portfolio'
+  Funds = "funds",
+  Portfolio = "portfolio",
 }

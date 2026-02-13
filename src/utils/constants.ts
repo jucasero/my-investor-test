@@ -1,2 +1,2 @@
-export const DefaultLocale = 'es-ES';
-export const DefaultCurrency = 'EUR';
+export const DefaultLocale = "es-ES";
+export const DefaultCurrency = "EUR";

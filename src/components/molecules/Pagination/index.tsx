@@ -1,4 +1,4 @@
-import * as styles from './Pagination.css';
+import * as styles from "./Pagination.css";
 
 interface PaginationProps {
   currentPage: number;
@@ -20,12 +20,15 @@ export const Pagination = ({
   return (
     <div className={styles.container}>
       <p className={styles.info}>
-        Mostrando {((currentPage - 1) * limit) + 1} - {Math.min(currentPage * limit, totalItems)} de {totalItems} fondos
+        Mostrando {(currentPage - 1) * limit + 1} -{" "}
+        {Math.min(currentPage * limit, totalItems)} de {totalItems} fondos
       </p>
-      
+
       <div className={styles.controls}>
         <>
-          <label htmlFor="limit-select" className={styles.info}>Filas por página:</label>
+          <label htmlFor="limit-select" className={styles.info}>
+            Filas por página:
+          </label>
           <select
             id="limit-select"
             value={limit}
