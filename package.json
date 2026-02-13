@@ -8,6 +8,7 @@
     "start": "next start -p 4000 --webpack",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
+    "lint:prettier": "prettier --write .",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui"
   },
@@ -26,6 +27,8 @@
     "@vanilla-extract/next-plugin": "2.4.17",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "3.8.1",
     "typescript": "^5"
   }
 }
